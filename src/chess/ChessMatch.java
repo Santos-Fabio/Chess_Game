@@ -203,7 +203,13 @@ public class ChessMatch {
         placeNewPiece('f', 7,new Pawn(board,Color.BLACK) );
         placeNewPiece('g', 7,new Pawn(board,Color.BLACK) );
         placeNewPiece('h', 7,new Pawn(board,Color.BLACK) );
-        
+
+        //Knights
+        placeNewPiece('b', 1, new Knight(board, Color.WHITE));
+        placeNewPiece('g', 1, new Knight(board, Color.WHITE));
+        placeNewPiece('b', 8, new Knight(board, Color.BLACK));
+        placeNewPiece('g', 8, new Knight(board, Color.BLACK));
+
         //Bishops
         placeNewPiece('c', 1, new Bishop(board, Color.WHITE));
         placeNewPiece('f', 1, new Bishop(board, Color.WHITE));
