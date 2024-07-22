@@ -13,7 +13,6 @@ import chess.ChessPosition;
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-        Boolean Chess960;
         List<ChessPiece> captured = new ArrayList<>();
         
         UI.clearScreen();
