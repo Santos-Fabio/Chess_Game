@@ -13,8 +13,17 @@ import chess.ChessPosition;
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-        ChessMatch chessMatch = new ChessMatch();
+        Boolean Chess960;
         List<ChessPiece> captured = new ArrayList<>();
+        
+        UI.clearScreen();
+        System.out.print("Would you like to play Chess960? (Y/N): ");
+        String mode = sc.nextLine().toUpperCase();
+        while(!mode.equals("Y") && !mode.equals("N")){
+            System.out.print("Invalid value! Would you like to play Chess960? (Y/N): ");
+            mode = sc.nextLine().toUpperCase();
+        }
+        ChessMatch chessMatch = new ChessMatch(mode);
 
         while (!chessMatch.getCheckmate()) {
             try {
@@ -42,7 +51,7 @@ public class App {
                     System.out.print("Enter piece for promotion (B/N/R/Q): ");
                     String type = sc.nextLine().toUpperCase();
                     while(!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")){
-                        System.out.print("Invalid value!Enter piece for promotion (B/N/R/Q):  ");
+                        System.out.print("Invalid value! Enter piece for promotion (B/N/R/Q):  ");
                         type = sc.nextLine().toUpperCase();
                     }
                     chessMatch.replacePromotedPiece(type);

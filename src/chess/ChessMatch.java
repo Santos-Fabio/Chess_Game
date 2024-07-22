@@ -1,5 +1,6 @@
 package chess;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,11 +45,15 @@ public class ChessMatch {
         return promoted;
     }
 
-    public ChessMatch(){
+    public ChessMatch(String mode){
         board = new Board(8,8);
         turn = 1;
         currentPlayer = Color.WHITE;
-        intialSetup();
+        if(mode.equals("Y")){
+            randomSetup();
+        }else{
+            intialSetup();
+        }
     }
 
     public ChessPiece[][] getPieces(){
@@ -352,6 +357,84 @@ public class ChessMatch {
         //Kings
         placeNewPiece('e',1,new King(board,Color.WHITE,this));
         placeNewPiece('e',8,new King(board,Color.BLACK,this));
+    }
+
+    private void randomSetup(){
+        //Pawns
+        placeNewPiece('a', 2,new Pawn(board,Color.WHITE,this) );
+        placeNewPiece('b', 2,new Pawn(board,Color.WHITE,this) );
+        placeNewPiece('c', 2,new Pawn(board,Color.WHITE,this) );
+        placeNewPiece('d', 2,new Pawn(board,Color.WHITE,this) );
+        placeNewPiece('e', 2,new Pawn(board,Color.WHITE,this) );
+        placeNewPiece('f', 2,new Pawn(board,Color.WHITE,this) );
+        placeNewPiece('g', 2,new Pawn(board,Color.WHITE,this) );
+        placeNewPiece('h', 2,new Pawn(board,Color.WHITE,this) );
+
+        placeNewPiece('a', 7,new Pawn(board,Color.BLACK,this));
+        placeNewPiece('b', 7,new Pawn(board,Color.BLACK,this));
+        placeNewPiece('c', 7,new Pawn(board,Color.BLACK,this));
+        placeNewPiece('d', 7,new Pawn(board,Color.BLACK,this));
+        placeNewPiece('e', 7,new Pawn(board,Color.BLACK,this));
+        placeNewPiece('f', 7,new Pawn(board,Color.BLACK,this));
+        placeNewPiece('g', 7,new Pawn(board,Color.BLACK,this));
+        placeNewPiece('h', 7,new Pawn(board,Color.BLACK,this));
+
+    
+        List<Integer> positions = new ArrayList<>();
+
+        //Add bishops and making sure there are 2 biushops in differents color squares
+        int bishop1 = (int) (Math.random()*4)*2;
+        int bishop2 = (int) (Math.random()*4)*2 + 1;
+        positions.add(bishop1);
+        positions.add(bishop2);
+        
+        List<Integer> remainingPositions = new ArrayList<>();
+
+        for (int i = 0; i < 8; i++) {
+            if(i!=bishop1 && i!=bishop2){
+                remainingPositions.add(i);
+            }
+        }
+        Collections.shuffle(remainingPositions);
+        
+        //Add Queen position
+        positions.add(remainingPositions.remove(0));
+        
+        //Add Knights position
+        positions.add(remainingPositions.remove(0));
+        positions.add(remainingPositions.remove(0));
+
+        //Add Rooks and King and ensure king is between rooks
+        Collections.sort(remainingPositions);
+        
+        positions.add(remainingPositions.get(0));
+        positions.add(remainingPositions.get(2));
+        positions.add(remainingPositions.get(1));
+
+        //Bishops
+        placeNewPiece((char)('a'+ positions.get(0)), 1, new Bishop(board,Color.WHITE));
+        placeNewPiece((char)('a'+ positions.get(1)), 1, new Bishop(board,Color.WHITE));
+        placeNewPiece((char)('a'+ positions.get(0)), 8, new Bishop(board,Color.BLACK));
+        placeNewPiece((char)('a'+ positions.get(1)), 8, new Bishop(board,Color.BLACK));
+
+        //Queens
+        placeNewPiece((char)('a'+ positions.get(2)), 1, new Queen(board,Color.WHITE));
+        placeNewPiece((char)('a'+ positions.get(2)), 8, new Queen(board,Color.BLACK));
+
+        //Knights
+        placeNewPiece((char)('a'+ positions.get(3)), 1, new Knight(board,Color.WHITE));
+        placeNewPiece((char)('a'+ positions.get(4)), 1, new Knight(board,Color.WHITE));
+        placeNewPiece((char)('a'+ positions.get(3)), 8, new Knight(board,Color.BLACK));
+        placeNewPiece((char)('a'+ positions.get(4)), 8, new Knight(board,Color.BLACK));
+        
+        //Rooks and Kings
+        placeNewPiece((char)('a'+ positions.get(5)), 1, new Rook(board,Color.WHITE));
+        placeNewPiece((char)('a'+ positions.get(6)), 1, new Rook(board,Color.WHITE));
+        placeNewPiece((char)('a'+ positions.get(7)), 1, new King(board,Color.WHITE,this));
+        placeNewPiece((char)('a'+ positions.get(5)), 8, new Rook(board,Color.BLACK));
+        placeNewPiece((char)('a'+ positions.get(6)), 8, new Rook(board,Color.BLACK));
+        placeNewPiece((char)('a'+ positions.get(7)), 8, new King(board,Color.BLACK,this));
+
     }
      
 }
